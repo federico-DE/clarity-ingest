@@ -1,0 +1,14 @@
+{
+  "locale_languages": ["en", "da", "de", "nl", "fr", "es", "it", "nb", "no", "sv", "fi", "pl"],
+  "rules": [
+    { "page_type": "Home",       "pattern": "^/$" },
+    { "page_type": "PDP",        "pattern": "^(/collections/[^/]+)?/products/" },
+    { "page_type": "Collection", "pattern": "^/collections(/|$)" },
+    { "page_type": "Cart",       "pattern": "^/cart(/|$)" },
+    { "page_type": "Search",     "pattern": "^/search(/|$)" },
+    { "page_type": "Landing",    "pattern": "^/pages/" },
+    { "page_type": "Blog",       "pattern": "^/blogs(/|$)" },
+    { "page_type": "Account",    "pattern": "^/account" }
+  ],
+  "fallback": "Other"
+}

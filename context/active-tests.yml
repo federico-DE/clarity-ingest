@@ -1,0 +1,13 @@
+# Active and recent Intelligems tests. The UX report reads this file to
+# annotate regressions. A test not listed here is invisible to the report.
+# Dates are UTC, YYYY-MM-DD. Leave `end` empty while the test is running.
+# url_pattern is a regex matched against the locale-stripped path (e.g. ^/products/).
+
+tests:
+  # - name: PDP sticky ATC
+  #   url_pattern: ^/products/
+  #   variant: B - sticky add-to-cart on mobile
+  #   devices: [Mobile]          # optional
+  #   markets: [da-dk, de-de]    # optional, omit for all
+  #   start: 2026-10-20
+  #   end:

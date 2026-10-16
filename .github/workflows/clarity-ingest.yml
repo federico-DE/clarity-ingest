@@ -1,0 +1,55 @@
+name: Clarity daily ingest
+
+on:
+  schedule:
+    - cron: "15 0 * * *"   # 00:15 UTC daily
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Re-fetch calls already stored for yesterday (uses API quota)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: clarity-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull Clarity data
+        id: ingest
+        continue-on-error: true
+        env:
+          CLARITY_API_TOKEN: ${{ secrets.CLARITY_API_TOKEN }}
+        run: python scripts/ingest.py ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "clarity-ingest-bot"
+          git config user.email "clarity-ingest-bot@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "data: clarity ingest $(date -u -d 'yesterday' +%F)"
+            git push
+          fi
+
+      - name: Fail run if ingest failed
+        if: steps.ingest.outcome == 'failure'
+        run: |
+          echo "Ingest reported a failure; see 'Pull Clarity data' step and data/raw/*/_manifest.json"
+          exit 1

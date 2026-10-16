@@ -1,0 +1,11 @@
+{
+  "endpoint": "https://www.clarity.ms/export-data/api/v1/project-live-insights",
+  "num_of_days": 1,
+  "row_cap": 1000,
+  "calls": [
+    { "id": "url_device",     "dimensions": ["URL", "Device"] },
+    { "id": "url_channel",    "dimensions": ["URL", "Channel"] },
+    { "id": "device_channel", "dimensions": ["Device", "Channel"] },
+    { "id": "url",            "dimensions": ["URL"] }
+  ]
+}
